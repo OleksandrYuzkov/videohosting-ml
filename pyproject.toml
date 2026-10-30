@@ -9,12 +9,19 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.142.2",
+    "nbformat>=5.11.1",
+    "nltk>=3.10.4",
     "numpy>=2.5.3",
     "pandas>=3.0.6",
+    "plotly>=7.1.0",
     "pydantic>=2.13.5",
     "pytest>=9.1.1",
+    "redis>=5.0.0",
     "scikit-learn>=1.9.1",
+    "sentence-transformers>=6.2.0",
+    "umap-learn>=0.5.12",
     "uvicorn>=0.54.0",
+    "youtube-comment-downloader>=0.1.84",
 ]
 
 [project.scripts]

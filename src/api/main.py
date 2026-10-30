@@ -12,7 +12,6 @@ app.include_router(comments.router)
 app.include_router(search.router)
 app.include_router(recsys.router)
 
-
 @app.get("/health", tags=["System"])
 async def health_check():
     return {"status": "ok", "service": "videohosting-ml"}
