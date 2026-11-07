@@ -20,3 +20,21 @@ def test_search_moments_mock():
     assert "results" in data
     assert len(data["results"]) > 0
     assert data["results"][0]["video_id"] == 42
+
+
+def test_analyze_comments_insufficient_data():
+    """Test that the endpoint returns HTTP 400 when fewer than 15 comments are provided."""
+    payload = {
+        "video_id": 1,
+        "video_title": "Test Video",
+        "channel_name": "Test Channel",
+        "target_language": "English",
+        "comments": [
+            {"comment_id": 1, "text": "First comment", "votes": 5},
+            {"comment_id": 2, "text": "Second comment", "votes": 2},
+        ],
+    }
+    response = client.post("/api/v1/comments/analyze", json=payload)
+    # Verify HTTP 400 Bad Request and error detail message
+    assert response.status_code == 400
+    assert "Insufficient comments" in response.json()["detail"]

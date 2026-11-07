@@ -9,16 +9,22 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.142.2",
+    "ipywidgets>=8.1.9",
     "nbformat>=5.11.1",
     "nltk>=3.10.4",
     "numpy>=2.5.3",
+    "ollama>=0.6.3",
     "pandas>=3.0.6",
     "plotly>=7.1.0",
     "pydantic>=2.13.5",
+    "pydantic-settings>=2.16.2",
     "pytest>=9.1.1",
+    "qdrant-client>=1.20.0",
     "redis>=5.0.0",
     "scikit-learn>=1.9.1",
     "sentence-transformers>=6.2.0",
+    "torch>=2.4.0",
+    "transformers>=5.21.0",
     "umap-learn>=0.5.12",
     "uvicorn>=0.54.0",
     "youtube-comment-downloader>=0.1.84",
@@ -39,3 +45,13 @@ dev = [
 
 [tool.pytest.ini_options]
 pythonpath = ['.']
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+torchvision = { index = "pytorch-cu124" }
+

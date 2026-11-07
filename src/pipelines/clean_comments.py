@@ -10,11 +10,13 @@ def clean_comments_pipeline(
     df["is_duplicate"] = df["text"].duplicated()
     df["text_len"] = df["text"].str.len()
     df = df[(df["text_len"] >= min_text_len) & (~df["has_url"]) & (~df["is_duplicate"])]
-    df = (
-        df.sort_values("votes", ascending=False)
-        .groupby("author")
-        .head(max_comments_per_author)
-    )
+    if "author" in df.columns:
+        df = (
+            df.sort_values("votes", ascending=False)
+            .groupby("author")
+            .head(max_comments_per_author)
+        )
+    df["text"] = df["text"].str.replace(r"@\S+", "", regex=True).str.strip()
     df = df.reset_index(drop=True)
     return df
 

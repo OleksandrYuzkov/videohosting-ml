@@ -20,6 +20,8 @@ wandb/
 mlruns/
 logs/
 .pytest_cache/
+.ruff_cache/
+experiments/
 
 .vscode/
 .idea/
