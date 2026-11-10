@@ -11,9 +11,11 @@ def clean_comments_pipeline(
     df["text_len"] = df["text"].str.len()
     df = df[(df["text_len"] >= min_text_len) & (~df["has_url"]) & (~df["is_duplicate"])]
     if "author" in df.columns:
+        is_anon = df["author"].isna() | (df["author"] == "anonymous")
+        group_key = df["author"].where(~is_anon, other="anon_" + df.index.astype(str))
         df = (
             df.sort_values("votes", ascending=False)
-            .groupby("author")
+            .groupby(group_key)
             .head(max_comments_per_author)
         )
     df["text"] = df["text"].str.replace(r"@\S+", "", regex=True).str.strip()

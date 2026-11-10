@@ -16,3 +16,18 @@ def test_clean_comments_removes_spam_and_duplicates():
 
     assert len(result) == 1
     assert result.iloc[0]["author"] == "user1"
+
+
+def test_anonymous_comments_are_not_collapsed():
+    n = 20
+    df = pd.DataFrame(
+        {
+            "author": ["anonymous"] * n,
+            "text": [f"unique comment number {i}" for i in range(n)],
+            "votes": [0] * n,
+        }
+    )
+
+    result = clean_comments_pipeline(df)
+
+    assert len(result) == 20
