@@ -11,6 +11,10 @@ from src.core.qdrant import get_qdrant_client, init_collection
 from src.pipelines.clean_comments import clean_comments_pipeline
 
 
+def make_point_id(video_id: str, cid: str) -> str:
+    return str(uuid.uuid5(uuid.NAMESPACE_DNS, f"{video_id}:{cid}"))
+
+
 def index_comments_pipeline(
     df: pd.DataFrame,
     video_id: str,
@@ -24,15 +28,17 @@ def index_comments_pipeline(
     model = SentenceTransformer(settings.embedding_model_name, device=settings.device)
 
     passaages = [f"passage: {text}" for text in df["text"]]
-    dense_vectors = model.encode(passaages, batch_size=batch_size, show_progress_bar=True)
+    dense_vectors = model.encode(
+        passaages, batch_size=batch_size, show_progress_bar=True
+    )
 
     points = []
     for idx, (_, row) in enumerate(df.iterrows()):
-        point_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, str(row.get("cid", idx))))
+        point_id = make_point_id(video_id, str(row.get("cid", idx)))
         text = str(row.get("text", ""))
-        vector ={
-            'dense': dense_vectors[idx].tolist(),
-            'sparse': compute_sparse_vector(text),
+        vector = {
+            "dense": dense_vectors[idx].tolist(),
+            "sparse": compute_sparse_vector(text),
         }
         payload = {
             "video_id": video_id,
@@ -44,6 +50,7 @@ def index_comments_pipeline(
         points.append(models.PointStruct(id=point_id, vector=vector, payload=payload))
 
     client.upsert(collection_name="comments_hybrid", points=points)
+
 
 if __name__ == "__main__":
     df = pd.read_csv("data/raw/youtube_comments_1000.csv")
