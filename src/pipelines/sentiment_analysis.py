@@ -20,7 +20,9 @@ def get_embedding_model() -> SentenceTransformer:
     """Lazy-load the SentenceTransformer model on first call to prevent slow imports."""
     global _model
     if _model is None:
-        _model = SentenceTransformer(settings.embedding_model_name, device=settings.device)
+        _model = SentenceTransformer(
+            settings.embedding_model_name, device=settings.device
+        )
     return _model
 
 

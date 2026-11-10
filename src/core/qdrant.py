@@ -29,14 +29,14 @@ def init_collection(
         client.create_collection(
             collection_name=collection_name,
             vectors_config={
-                'dense': models.VectorParams(
+                "dense": models.VectorParams(
                     size=settings.embedding_dim,
                     distance=models.Distance.COSINE,
                 )
             },
             sparse_vectors_config={
-                'sparse': models.SparseVectorParams(
+                "sparse": models.SparseVectorParams(
                     modifier=models.Modifier.IDF,
                 )
-            }
+            },
         )
