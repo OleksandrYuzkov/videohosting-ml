@@ -1,3 +1,4 @@
+import torch
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +12,8 @@ class Settings(BaseSettings):
 
     embedding_model_name: str = "intfloat/multilingual-e5-small"
     embedding_dim: int = 384
+
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 settings = Settings()

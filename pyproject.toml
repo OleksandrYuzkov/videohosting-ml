@@ -1,10 +1,10 @@
 [project]
 name = "videohosting-ml"
 version = "0.1.0"
-description = "Add your description here"
+description = "ML microservice for a video hosting platform: semantic search, steerable recommendations, comment analytics"
 readme = "README.md"
 authors = [
-    { name = "OleksandrYuzkov", email = "oleksandr.yuzkov.ml@gmal.com" }
+    { name = "OleksandrYuzkov", email = "oleksandr.yuzkov.ml@gmail.com" }
 ]
 requires-python = ">=3.12"
 dependencies = [

@@ -10,6 +10,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.cluster import HDBSCAN
 
 from src.api.schemas.comments import AudienceReport, AudienceReportLLM, TopicItem
+from src.core.config import settings
 from src.pipelines.clean_comments import clean_comments_pipeline
 
 _model = None
@@ -19,7 +20,7 @@ def get_embedding_model() -> SentenceTransformer:
     """Lazy-load the SentenceTransformer model on first call to prevent slow imports."""
     global _model
     if _model is None:
-        _model = SentenceTransformer("intfloat/multilingual-e5-small", device="cuda")
+        _model = SentenceTransformer(settings.embedding_model_name, device=settings.device)
     return _model
 
 
